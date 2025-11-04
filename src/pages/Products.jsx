@@ -1,0 +1,74 @@
+import shoeImg from "../assets/images/shoe.jpg"
+import phoneImg from "../assets/images/phones.jpg"
+import clothImg from "../assets/images/cloth.jpg"
+import LikedButton from "../components/LikedButton"
+
+
+
+function Product() {
+
+    
+
+    const products = [
+        {pName : "shoe", price : "$35", image : shoeImg}, 
+        {pName : "phone", price : "$85", image : phoneImg}, 
+        {pName : "cloth", price : "$15", image : clothImg}, 
+    ]
+    return (
+        <>
+
+            <section className="mx-auto max-w-7xl p-5">
+                <header className="mb-8">
+                    <h2 className="text-3xl font-bold text-gray-900">Our Products</h2>
+                    <p className="text-gray-600 mt-2">Featured high-quality products</p>
+                </header>
+                
+                <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+                    {products.map((value) => (
+
+                    // {/* <!-- Product 1 --> */}
+                    <div key={value.pName} className="overflow-hidden rounded-2xl bg-white flex flex-col shadow-sm hover:shadow-md transition-shadow">
+                        <figure className="flex-1">
+                            <img
+                                src={value.image}
+                                alt="Wild Journey T-shirt - New model product"
+                                className="w-full object-cover aspect-square"
+                                loading="lazy"
+                            />
+                        </figure>
+
+                        <div className="p-4 flex-1">
+                            <h3 className="text-lg font-semibold mt-1">{value.pName}</h3>
+
+                            <div className="mt-2 flex justify-between">
+                                <span className="text-gray-700 font-bold text-xl">{value.price}</span>
+                              
+
+                                
+                                <LikedButton />
+                            </div>
+
+                            <div className="mt-2 flex items-center gap-1">
+                                <i data-lucide="star" className="w-4 h-4 fill-yellow-400 text-yellow-400"></i>
+                                <i data-lucide="star" className="w-4 h-4 fill-yellow-400 text-yellow-400"></i>
+                                <i data-lucide="star" className="w-4 h-4 fill-yellow-400 text-yellow-400"></i>
+                                <i data-lucide="star" className="w-4 h-4 fill-yellow-400 text-yellow-400"></i>
+                                <i data-lucide="star" className="w-4 h-4 text-gray-300"></i>
+                                <span className="text-sm text-gray-500 ml-1">(4.5)</span>
+                            </div>
+                        </div>
+
+                        <button className="w-full bg-black py-4 text-white hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 font-medium">
+                            <i data-lucide="shopping-cart" className="w-5 h-5"></i>
+                            Add to Cart
+                        </button>
+                    </div>
+                    ))}
+
+                    
+                </div>
+            </section>
+
+        </>
+    )
+} export default Product
