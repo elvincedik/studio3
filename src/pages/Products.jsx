@@ -2,18 +2,25 @@ import shoeImg from "../assets/images/shoe.jpg"
 import phoneImg from "../assets/images/phones.jpg"
 import clothImg from "../assets/images/cloth.jpg"
 import LikedButton from "../components/LikedButton"
+import { useEffect, useState } from "react"
 
 
 
 function Product() {
 
-    
+    const [products, setProducts] = useState([])
 
-    const products = [
-        {pName : "shoe", price : "$35", image : shoeImg}, 
-        {pName : "phone", price : "$85", image : phoneImg}, 
-        {pName : "cloth", price : "$15", image : clothImg}, 
-    ]
+    useEffect(() => {
+        fetch("https://dummyjson.com/products")
+            .then(res => res.json())
+            .then(data => setProducts(data.products))
+            .catch(err => console.log(err));
+    
+            
+    }, [])
+        
+        console.log(products)
+
     return (
         <>
 
@@ -22,15 +29,16 @@ function Product() {
                     <h2 className="text-3xl font-bold text-gray-900">Our Products</h2>
                     <p className="text-gray-600 mt-2">Featured high-quality products</p>
                 </header>
-                
+
                 <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+
                     {products.map((value) => (
 
                     // {/* <!-- Product 1 --> */}
-                    <div key={value.pName} className="overflow-hidden rounded-2xl bg-white flex flex-col shadow-sm hover:shadow-md transition-shadow">
+                    <div key={value.id} className="overflow-hidden rounded-2xl bg-white flex flex-col shadow-sm hover:shadow-md transition-shadow">
                         <figure className="flex-1">
                             <img
-                                src={value.image}
+                                src={value.images[0]}
                                 alt="Wild Journey T-shirt - New model product"
                                 className="w-full object-cover aspect-square"
                                 loading="lazy"
@@ -38,7 +46,7 @@ function Product() {
                         </figure>
 
                         <div className="p-4 flex-1">
-                            <h3 className="text-lg font-semibold mt-1">{value.pName}</h3>
+                            <h3 className="text-lg font-semibold mt-1">{value.title}</h3>
 
                             <div className="mt-2 flex justify-between">
                                 <span className="text-gray-700 font-bold text-xl">{value.price}</span>
@@ -65,7 +73,6 @@ function Product() {
                     </div>
                     ))}
 
-                    
                 </div>
             </section>
 
