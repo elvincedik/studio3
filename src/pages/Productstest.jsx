@@ -1,0 +1,102 @@
+import { useEffect, useState } from "react"
+import LikedButton from "../components/LikedButton"
+
+function Product() {
+
+    const [products, setProducts] = useState([])
+    const [query, setQuery] = useState("")
+
+    // Fetch all products on load
+    useEffect(() => {
+        fetch("https://dummyjson.com/products")
+            .then(res => res.json())
+            .then(data => setProducts(data.products))
+            .catch(err => console.error(err))
+    }, [])
+
+    // Search products
+    const handleSearch = (value) => {
+        setQuery(value)
+        if (value.trim() === "") {
+            // Reload full list if search box is cleared
+            fetch("https://dummyjson.com/products")
+                .then(res => res.json())
+                .then(data => setProducts(data.products))
+            return
+        }
+        fetch(`https://dummyjson.com/products/search?q=${value}`)
+            .then(res => res.json())
+            .then(data => setProducts(data.products))
+            .catch(err => console.error(err))
+    }
+    return (
+        <>
+            <section className="mx-auto max-w-7xl p-5">
+                {/* Search Bar */}
+                <div className="mb-6">
+                    <input
+                        type="text"
+                        placeholder="Search products..."
+                        value={query}
+                        onChange={(e) => handleSearch(e.target.value)}
+                        className="w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-gray-300"
+                    />
+                </div>
+
+                <header className="mb-8">
+                    <h2 className="text-3xl font-bold text-gray-900">Our Products</h2>
+                    <p className="text-gray-600 mt-2">Featured high-quality products</p>
+                </header>
+                
+                <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+                    {products.map((item) => (
+                        <div 
+                            key={item.id} 
+                            className="overflow-hidden rounded-2xl bg-white flex flex-col shadow-sm hover:shadow-md transition-shadow"
+                        >
+                            <figure className="flex-1">
+                                <img
+                                    src={item.thumbnail}
+                                    alt={item.title}
+                                    className="w-full object-cover aspect-square"
+                                    loading="lazy"
+                                />
+                            </figure>
+
+                            <div className="p-4 flex-1">
+                                <h3 className="text-lg font-semibold mt-1">{item.title}</h3>
+
+                                <div className="mt-2 flex justify-between">
+                                    <span className="text-gray-700 font-bold text-xl">${item.price}</span>
+                                    <LikedButton />
+                                </div>
+
+                                <div className="mt-2 flex items-center gap-1">
+                                    {[1,2,3,4,5].map((star) => (
+                                        <i
+                                            key={star}
+                                            data-lucide="star"
+                                            className={`w-4 h-4 ${
+                                                star <= Math.round(item.rating)
+                                                    ? "fill-yellow-400 text-yellow-400"
+                                                    : "text-gray-300"
+                                            }`}
+                                        ></i>
+                                    ))}
+                                    <span className="text-sm text-gray-500 ml-1">({item.rating})</span>
+                                </div>
+                            </div>
+
+                            <button className="w-full bg-black py-4 text-white hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 font-medium">
+                                <i data-lucide="shopping-cart" className="w-5 h-5"></i>
+                                Add to Cart
+                            </button>
+                        </div>
+                    ))}
+                </div>
+            </section>
+        </>
+    )
+}
+
+export default Product

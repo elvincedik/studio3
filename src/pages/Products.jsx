@@ -3,33 +3,75 @@ import phoneImg from "../assets/images/phones.jpg"
 import clothImg from "../assets/images/cloth.jpg"
 import LikedButton from "../components/LikedButton"
 import { useEffect, useState } from "react"
+import axios from "axios"
 
 
 
 function Product() {
 
     const [products, setProducts] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
+    const [query, setQuery] = useState("")
 
     useEffect(() => {
-        fetch("https://dummyjson.com/products")
-            .then(res => res.json())
-            .then(data => setProducts(data.products))
-            .catch(err => console.log(err));
-    
-            
+        fetchProducts()    
     }, [])
+
+    const fetchProducts = async () => {
+
+        try {
+            const res = await axios.get("https://dummyjson.com/products")
+            setProducts(res.data.products)
+            setIsLoading(false)
+        } catch (error) {
+            alert(error)
+        }
+        // fetch("https://dummyjson.com/products")
+        //     .then(res => res.json())
+        //     .then(data => setProducts(data.products))
+        //     .then(() => setIsLoading(false))
+        //     .catch(err => console.log(err));
+    }
         
         console.log(products)
+
+    const handleSearch = async (searchTerm) => {
+        setQuery(searchTerm)
+        
+        try {
+            const res = await axios.get(`https://dummyjson.com/products/search?q=${searchTerm}`)
+            setProducts(res.data.products)
+        } catch (error) {
+            alert(error)
+        }
+
+        // fetch(`https://dummyjson.com/products/search?q=${searchTerm}`)
+        //     .then(res => res.json())
+        //     .then((data) => setProducts(data.products))
+        //     .catch(err => console.log(err))
+
+    }
 
     return (
         <>
 
             <section className="mx-auto max-w-7xl p-5">
-                <header className="mb-8">
-                    <h2 className="text-3xl font-bold text-gray-900">Our Products</h2>
-                    <p className="text-gray-600 mt-2">Featured high-quality products</p>
-                </header>
+                <div className="flex justify-between items-center">
+                    <header className="mb-8">
+                        <h2 className="text-3xl font-bold text-gray-900">Our Products</h2>
+                        <p className="text-gray-600 mt-2">Featured high-quality products</p>
+                    </header>
 
+                    <input 
+                        type="text" 
+                        placeholder="search products" 
+                        className="border p-3" 
+                        value={query}
+                        onChange={(e) => handleSearch(e.target.value)}
+                    />
+                </div>
+
+                {isLoading ? (<p className="text-center">loading products...</p>): ""}
                 <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
 
                     {products.map((value) => (

@@ -6,6 +6,7 @@ import Contact from './pages/Contact';
 import Products from './pages/Products';
 import Services from './pages/Services';
 import Register from './pages/Register';
+import Login from './pages/Login';
 import Navbar from './components/Navbar';
 import MainLayout from './layouts/MainLayout';
 
@@ -23,6 +24,7 @@ function App() {
           <Route path='/products' element={<Products />}/>
           <Route path='/services' element={<Services />}/>
           <Route path='/register' element={<Register />}/>
+          <Route path='/login' element={<Login />}/>
         </Routes>
       </ MainLayout>
     </BrowserRouter>
