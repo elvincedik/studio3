@@ -9,6 +9,8 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import Navbar from './components/Navbar';
 import MainLayout from './layouts/MainLayout';
+import Dashboard from './pages/dashboard';
+
 
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
@@ -25,6 +27,7 @@ function App() {
           <Route path='/services' element={<Services />}/>
           <Route path='/register' element={<Register />}/>
           <Route path='/login' element={<Login />}/>
+          <Route path='/dashboard' element={<Dashboard />}/>
         </Routes>
       </ MainLayout>
     </BrowserRouter>
