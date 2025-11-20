@@ -2,8 +2,11 @@ import { useState } from "react";
 import { Link } from 'react-router-dom';
 import { GiHamburgerMenu } from "react-icons/gi";
 
-function Navbar() {
+function Navbar({cartNo}) {
     let [isOpen, setIspon] = useState(false)
+
+    console.log(cartNo);
+    
     return (
         <header>
         {/* desktop */}
@@ -27,6 +30,9 @@ function Navbar() {
             </li>
             <li>
                 <Link to="/login">Login</Link>
+            </li>
+            <li>
+                <Link to="/cart">cart {cartNo}</Link>
             </li>
           </ul>
           <GiHamburgerMenu 

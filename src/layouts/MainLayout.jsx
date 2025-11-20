@@ -1,11 +1,11 @@
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
 
-function MainLayout({children}) {
+function MainLayout({children, cartNo}) {
 
     return (
         <>
-        <Navbar/>
+        <Navbar cartNo={cartNo} />
         <main>
             {children}
         </main>

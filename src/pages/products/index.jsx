@@ -1,13 +1,12 @@
-import shoeImg from "../assets/images/shoe.jpg"
-import phoneImg from "../assets/images/phones.jpg"
-import clothImg from "../assets/images/cloth.jpg"
-import LikedButton from "../components/LikedButton"
+
+import LikedButton from "../../components/LikedButton"
 import { useEffect, useState } from "react"
 import axios from "axios"
+import { Link } from "react-router-dom"
 
 
 
-function Product() {
+function Product({handleAddToCart}) {
 
     const [products, setProducts] = useState([])
     const [isLoading, setIsLoading] = useState(true)
@@ -52,6 +51,9 @@ function Product() {
 
     }
 
+    console.log("products", products);
+    
+
     return (
         <>
 
@@ -87,7 +89,7 @@ function Product() {
                             />
                         </figure>
 
-                        <div className="p-4 flex-1">
+                        <Link className="p-4 flex-1" to={`/product/${value.id}`}>
                             <h3 className="text-lg font-semibold mt-1">{value.title}</h3>
 
                             <div className="mt-2 flex justify-between">
@@ -106,9 +108,12 @@ function Product() {
                                 <i data-lucide="star" className="w-4 h-4 text-gray-300"></i>
                                 <span className="text-sm text-gray-500 ml-1">(4.5)</span>
                             </div>
-                        </div>
+                        </Link>
 
-                        <button className="w-full bg-black py-4 text-white hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 font-medium">
+                        <button 
+                            className="w-full bg-black py-4 text-white hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 font-medium"
+                            onClick={() => handleAddToCart(value)}
+                        >
                             <i data-lucide="shopping-cart" className="w-5 h-5"></i>
                             Add to Cart
                         </button>
